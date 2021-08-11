@@ -34,6 +34,7 @@
         <receiver android:name=".infrastructure.SmsBroadcastReceiver" android:enabled="true">
             <intent-filter android:priority="2147483647">
                 <action android:name="android.provider.Telephony.SMS_RECEIVED" />
+                <action android:name="com.meowsoft.sosbutton.SEND_DISTRESS" />
             </intent-filter>
         </receiver>
 
