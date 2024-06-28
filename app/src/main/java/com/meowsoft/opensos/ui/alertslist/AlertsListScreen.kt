@@ -16,21 +16,26 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.isGranted
 import com.google.accompanist.permissions.rememberMultiplePermissionsState
 import com.google.accompanist.permissions.shouldShowRationale
 import com.meowsoft.opensos.common.requiredPermissions
+import com.meowsoft.opensos.data.Alert
 import com.meowsoft.opensos.ui.addalert.AddAlertNavigationConfig
+import kotlinx.collections.immutable.persistentListOf
 
 @OptIn(ExperimentalPermissionsApi::class)
 @Composable
-fun AlertsListScreen(navHostController: NavHostController) {
-    val viewModel: AlertsListViewModel = hiltViewModel()
+fun AlertsListScreen(
+    viewModel: AlertsListViewModel
+) {
     val permissionState = rememberMultiplePermissionsState(permissions = requiredPermissions)
 
     val requestPermissionLauncher = rememberLauncherForActivityResult(
@@ -57,21 +62,25 @@ fun AlertsListScreen(navHostController: NavHostController) {
         }
     }
 
+    val alertsState by viewModel.alerts.collectAsStateWithLifecycle(persistentListOf())
+
     MainScreenLayoutPermissionsGranted(
-        navHostController = navHostController
+        alertsState,
+        onNavigateToAddAlerts = viewModel::navigateToAddAlert
     ){}
 }
 
 @Composable
 fun MainScreenLayoutPermissionsGranted(
-    navHostController: NavHostController,
+    alertsList: List<Alert>,
+    onNavigateToAddAlerts: () -> Unit,
     onButtonClick: () -> Unit
 ) {
     Scaffold(
         floatingActionButtonPosition = FabPosition.EndOverlay,
         floatingActionButton = {
             FloatingActionButton(onClick = {
-                navHostController.navigate(AddAlertNavigationConfig.route)
+                onNavigateToAddAlerts()
             }) {
                 Icon(Icons.Filled.Add, "Add")
             }
@@ -84,11 +93,11 @@ fun MainScreenLayoutPermissionsGranted(
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Button(
-                onClick = onButtonClick
-            ) {
-                Text(text = "TEST")
-            }
+           alertsList
+               .forEach { alert ->
+                   Text(text = alert.textMessage)
+                   Text(text = alert.phoneNumber)
+               }
         }
     }
 }

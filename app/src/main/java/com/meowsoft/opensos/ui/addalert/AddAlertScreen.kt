@@ -40,17 +40,26 @@ import com.meowsoft.opensos.common.requiredPermissions
 
 @Composable
 fun AddAlertScreen(
-    navHostController: NavHostController
+    viewModel: AddAlertViewModel
 ) {
-    val viewModel: AddAlertViewModel = hiltViewModel()
     val state by viewModel.addAlertUiState.collectAsStateWithLifecycle()
 
+    AddAlertLayout(
+        state,
+        viewModel::onUiEvent
+    )
+}
+
+@Composable
+private fun AddAlertLayout(
+    state: AddAlertUiState,
+    onUiEvent: (AddAlertUiEvent) -> Unit
+) {
     Scaffold(
         floatingActionButtonPosition = FabPosition.EndOverlay,
         floatingActionButton = {
             FloatingActionButton(onClick = {
-                // TODO confirm
-                navHostController.popBackStack()
+                onUiEvent(AddAlertUiEvent.ConfirmClicked)
             }) {
                 Icon(Icons.Filled.Done, "Confirm")
             }
@@ -66,13 +75,13 @@ fun AddAlertScreen(
             TextField(
                 value = state.phoneNumber,
                 onValueChange = { input ->
-                    viewModel.onUiEvent(AddAlertUiEvent.PhoneNumberInput(input))
+                    onUiEvent(AddAlertUiEvent.PhoneNumberInput(input))
                 }
             )
             TextField(
                 value = state.textMessage,
                 onValueChange = { input ->
-                    viewModel.onUiEvent(AddAlertUiEvent.MessageInput(input))
+                    onUiEvent(AddAlertUiEvent.MessageInput(input))
                 }
             )
             Row (
@@ -82,7 +91,7 @@ fun AddAlertScreen(
                 Checkbox(
                     checked = state.isRingtoneActionOn,
                     onCheckedChange = { isOn ->
-                        viewModel.onUiEvent(AddAlertUiEvent.ToggleRingtoneAction(isOn))
+                        onUiEvent(AddAlertUiEvent.ToggleRingtoneAction(isOn))
                     }
                 )
                 Text(
@@ -97,7 +106,7 @@ fun AddAlertScreen(
                 Checkbox(
                     checked = state.isFlashlightActionOn,
                     onCheckedChange = { isOn ->
-                        viewModel.onUiEvent(AddAlertUiEvent.ToggleFlashlightAction(isOn))
+                        onUiEvent(AddAlertUiEvent.ToggleFlashlightAction(isOn))
                     }
                 )
                 Text(
@@ -109,10 +118,11 @@ fun AddAlertScreen(
     }
 }
 
+
 @Composable
 @Preview
 fun AddAlertScreenPreview() {
-    AddAlertScreen(
-        rememberNavController()
-    )
+    AddAlertLayout(
+        AddAlertUiState(),
+    ){}
 }

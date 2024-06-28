@@ -5,6 +5,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.util.fastForEach
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -33,8 +34,10 @@ class MainActivity : ComponentActivity() {
             ) {
                 Destinations.list.fastForEach { destination ->
                     composable(destination.route) {
+                        val vm = destination.getViewModel()
+                        vm.navHostController = navController
 
-                        destination.Content(navController)
+                        destination.Content()
                     }
                 }
             }

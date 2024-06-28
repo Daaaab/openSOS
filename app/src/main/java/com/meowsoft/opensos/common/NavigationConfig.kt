@@ -4,12 +4,12 @@ import androidx.compose.runtime.Composable
 import androidx.lifecycle.ViewModel
 import androidx.navigation.NavHostController
 
-interface NavigationConfig {
+interface NavigationConfig<T> {
     val route: String
 
     @Composable
-    fun getViewModel(): NavigatorViewModel
+    fun getViewModel(): T
 
     @Composable
-    fun Content(navHostController: NavHostController)
+    fun Content()
 }

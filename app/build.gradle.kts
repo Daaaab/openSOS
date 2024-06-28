@@ -2,6 +2,7 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
     alias(libs.plugins.hilt.android)
+    kotlin("plugin.serialization") version "2.0.0"
     id("kotlin-kapt")
 }
 
@@ -63,9 +64,14 @@ dependencies {
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.hilt.navigation.compose)
     implementation(libs.androidx.material3)
-    implementation (libs.accompanist.permissions)
+    implementation(libs.accompanist.permissions)
     implementation(libs.hilt.android)
     implementation(libs.androidx.lifecycle.runtime.compose.android)
+
+    implementation(libs.kotlinx.serialization.json)
+    implementation(libs.kotlinx.collections.immutable)
+    implementation(libs.androidx.datastore)
+
     kapt(libs.hilt.android.compiler)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)

@@ -13,6 +13,7 @@ class Settings @Inject constructor(context: Context) {
 
     val ringtone: Ringtone
     val ringToneStream = AudioManager.STREAM_RING
+    val volume: Float = 1F
 
     val flashDuration = 0.5F
 

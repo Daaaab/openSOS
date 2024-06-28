@@ -4,6 +4,7 @@ import android.media.AudioManager
 import com.meowsoft.opensos.common.Settings
 import kotlinx.coroutines.delay
 import javax.inject.Inject
+import kotlin.math.roundToInt
 
 class RingtoneAction @Inject constructor(
     settings: Settings,
@@ -12,6 +13,7 @@ class RingtoneAction @Inject constructor(
     private val ringtone = settings.ringtone
     private val stream = settings.ringToneStream
     private val durationMills = settings.duration * 1000L
+    private val volumePercentage = settings.volume
 
     override suspend fun perform() {
         val originalVolume = maxVolume()
@@ -34,7 +36,9 @@ class RingtoneAction @Inject constructor(
         val volumeLevel = audioManager.getStreamVolume(stream)
         val maxVolumeLevel = audioManager.getStreamMaxVolume(stream)
 
-        setVolume(maxVolumeLevel)
+        val volume = (maxVolumeLevel * volumePercentage).roundToInt()
+
+        setVolume(volume)
 
         return volumeLevel
     }
