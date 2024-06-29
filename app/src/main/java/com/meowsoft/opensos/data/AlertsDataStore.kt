@@ -1,6 +1,7 @@
 package com.meowsoft.opensos.data
 
 import androidx.datastore.core.Serializer
+import com.meowsoft.opensos.domain.model.Alert
 import kotlinx.collections.immutable.PersistentList
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.collections.immutable.toPersistentList

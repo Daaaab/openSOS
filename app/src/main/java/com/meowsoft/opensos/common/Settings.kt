@@ -15,7 +15,7 @@ class Settings @Inject constructor(context: Context) {
     val ringToneStream = AudioManager.STREAM_RING
     val volume: Float = 1F
 
-    val flashDuration = 0.5F
+    val flashInterval = 0.5F
 
     init {
         val ringtoneUri: Uri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_RINGTONE)

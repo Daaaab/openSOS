@@ -4,11 +4,13 @@ import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
-import androidx.compose.material3.Button
+import androidx.compose.material.icons.rounded.FlashlightOn
+import androidx.compose.material.icons.rounded.Notifications
 import androidx.compose.material3.FabPosition
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
@@ -19,16 +21,14 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.navigation.NavHostController
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.isGranted
 import com.google.accompanist.permissions.rememberMultiplePermissionsState
 import com.google.accompanist.permissions.shouldShowRationale
 import com.meowsoft.opensos.common.requiredPermissions
-import com.meowsoft.opensos.data.Alert
-import com.meowsoft.opensos.ui.addalert.AddAlertNavigationConfig
+import com.meowsoft.opensos.domain.model.Alert
+import com.meowsoft.opensos.domain.model.AlertActionType
 import kotlinx.collections.immutable.persistentListOf
 
 @OptIn(ExperimentalPermissionsApi::class)
@@ -94,9 +94,26 @@ fun MainScreenLayoutPermissionsGranted(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
            alertsList
-               .forEach { alert ->
-                   Text(text = alert.textMessage)
-                   Text(text = alert.phoneNumber)
+               .forEachIndexed {index, alert ->
+                   Row {
+                       Text(text = "$index.")
+                       Column {
+                           Text(text = alert.textMessage)
+                           Text(text = alert.phoneNumber)
+                       }
+                       if(alert.actionTypes.contains(AlertActionType.RINGTONE)) {
+                           Icon(
+                               imageVector = Icons.Rounded.Notifications,
+                               contentDescription = ""
+                           )
+                       }
+                       if(alert.actionTypes.contains(AlertActionType.FLASHLIGHT)) {
+                           Icon(
+                               imageVector = Icons.Rounded.FlashlightOn,
+                               contentDescription = ""
+                           )
+                       }
+                   }
                }
         }
     }

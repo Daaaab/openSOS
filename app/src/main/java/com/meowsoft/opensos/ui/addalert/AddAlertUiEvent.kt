@@ -1,7 +1,5 @@
 package com.meowsoft.opensos.ui.addalert
 
-import com.meowsoft.opensos.data.Alert
-
 sealed interface AddAlertUiEvent {
     object ConfirmClicked: AddAlertUiEvent
 

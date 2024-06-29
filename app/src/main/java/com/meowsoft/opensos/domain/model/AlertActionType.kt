@@ -1,4 +1,4 @@
-package com.meowsoft.opensos.data
+package com.meowsoft.opensos.domain.model
 
 import kotlinx.serialization.Serializable
 

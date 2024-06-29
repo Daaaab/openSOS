@@ -18,8 +18,8 @@ class FlashlightAction @Inject constructor(
     private val timer: Flow<Int>
 
     init {
-        val blinksCount = (settings.duration / settings.flashDuration).roundToInt()
-        val blinkDuration = (settings.flashDuration * 1000).roundToLong()
+        val blinksCount = (settings.duration / settings.flashInterval).roundToInt()
+        val blinkDuration = (settings.flashInterval * 1000).roundToLong()
 
         timer = (0..blinksCount)
             .asSequence()

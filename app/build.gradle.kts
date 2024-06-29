@@ -66,6 +66,7 @@ dependencies {
     implementation(libs.androidx.material3)
     implementation(libs.accompanist.permissions)
     implementation(libs.hilt.android)
+    implementation(libs.androidx.material.icons.extended)
     implementation(libs.androidx.lifecycle.runtime.compose.android)
 
     implementation(libs.kotlinx.serialization.json)

@@ -18,6 +18,12 @@ class AlertsListViewModel @Inject constructor(
     private val repository: AlertsRepository
 ) : NavigatorViewModel() {
 
+    init {
+        viewModelScope.launch {
+            repository.clearAlerts()
+        }
+    }
+
     val alerts = repository
         .getAlerts()
         .map { it.toList() }
