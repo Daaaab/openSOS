@@ -62,7 +62,10 @@ private fun AddAlertLayout(
         floatingActionButtonPosition = FabPosition.EndOverlay,
         floatingActionButton = {
             FloatingActionButton(onClick = {
-                onUiEvent(AddAlertUiEvent.ConfirmClicked)
+                onUiEvent(AddAlertUiEvent.ConfirmClicked(
+                    duration = durationSliderState.value.toInt(),
+                    volume = volumeSliderState.value.toInt()
+                ))
             }) {
                 Icon(Icons.Filled.Done, "Confirm")
             }
@@ -134,7 +137,8 @@ private fun AddAlertLayout(
                     modifier = Modifier.fillMaxWidth(),
                     state = volumeSliderState,
                     label = "Volume:",
-                    unit = "%"
+                    unit = "%",
+                    enabled = state.isRingtoneActionOn
                 )
                 Text(
                     text = "Flashlight",

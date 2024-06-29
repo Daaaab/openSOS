@@ -6,7 +6,6 @@ import androidx.lifecycle.viewModelScope
 import com.meowsoft.opensos.common.NavigatorViewModel
 import com.meowsoft.opensos.data.AlertsRepository
 import com.meowsoft.opensos.domain.model.Alert
-import com.meowsoft.opensos.domain.model.AlertActionType
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -15,31 +14,23 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-@OptIn(ExperimentalMaterial3Api::class)
 class AddAlertViewModel @Inject constructor(
     private val repository: AlertsRepository
 ) : NavigatorViewModel() {
-
-
-    private val _durationSliderState: MutableStateFlow<SliderState> =
-        MutableStateFlow(SliderState())
-    val durationSliderState: StateFlow<SliderState> = _durationSliderState.asStateFlow()
-
 
     private val _addAlertUiState: MutableStateFlow<AddAlertUiState> =
         MutableStateFlow(AddAlertUiState())
     val addAlertUiState: StateFlow<AddAlertUiState> = _addAlertUiState.asStateFlow()
 
-    private fun confirmAlert() {
+    private fun confirmAlert(duration: Int, volume: Int) {
         with(_addAlertUiState.value) {
-            val alerts = mutableListOf<AlertActionType>()
-            if (isFlashlightActionOn) alerts.add(AlertActionType.FLASHLIGHT)
-            if (isRingtoneActionOn) alerts.add(AlertActionType.RINGTONE)
-
             val alert = Alert(
                 phoneNumber = phoneNumber,
                 textMessage = textMessage,
-                actionTypes = alerts
+                isFlashlightActionOn = isFlashlightActionOn,
+                isRingtoneActionOn = isRingtoneActionOn,
+                durationSeconds = duration,
+                volume = volume
             )
 
             viewModelScope.launch {
@@ -50,7 +41,7 @@ class AddAlertViewModel @Inject constructor(
     }
 
     fun onUiEvent(uiEvent: AddAlertUiEvent) = when (uiEvent) {
-        is AddAlertUiEvent.ConfirmClicked -> confirmAlert()
+        is AddAlertUiEvent.ConfirmClicked -> confirmAlert(uiEvent.duration, uiEvent.volume)
         is AddAlertUiEvent.MessageInput -> onTextMessageInput(uiEvent.message)
         is AddAlertUiEvent.PhoneNumberInput -> onPhoneNumberInput(uiEvent.phoneNumber)
         is AddAlertUiEvent.ToggleFlashlightAction -> onToggleFlashlightAction(uiEvent.isOn)

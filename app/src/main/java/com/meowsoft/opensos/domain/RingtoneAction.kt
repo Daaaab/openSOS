@@ -9,14 +9,14 @@ import kotlin.math.roundToInt
 class RingtoneAction @Inject constructor(
     settings: Settings,
     private val audioManager: AudioManager
-) : Action {
+) {
     private val ringtone = settings.ringtone
     private val stream = settings.ringToneStream
-    private val durationMills = settings.duration * 1000L
-    private val volumePercentage = settings.volume
 
-    override suspend fun perform() {
-        val originalVolume = maxVolume()
+    suspend fun perform(duration: Int, volume: Int) {
+        val durationMills = duration * 1000L
+
+        val originalVolume = maxVolume(volume)
         val originalMode = setRingModeToRing()
 
         ringtone.play()
@@ -32,11 +32,11 @@ class RingtoneAction @Inject constructor(
     private fun setVolume(volume: Int) = audioManager
         .setStreamVolume(stream, volume, 0)
 
-    private fun maxVolume(): Int {
+    private fun maxVolume(volumePercentage: Int): Int {
         val volumeLevel = audioManager.getStreamVolume(stream)
         val maxVolumeLevel = audioManager.getStreamMaxVolume(stream)
 
-        val volume = (maxVolumeLevel * volumePercentage).roundToInt()
+        val volume = (maxVolumeLevel * volumePercentage)
 
         setVolume(volume)
 

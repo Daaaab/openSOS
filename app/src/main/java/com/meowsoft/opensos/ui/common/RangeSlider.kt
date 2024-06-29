@@ -22,7 +22,8 @@ fun RangeSlider(
     modifier: Modifier = Modifier,
     state: SliderState,
     label: String,
-    unit: String = ""
+    unit: String = "",
+    enabled: Boolean = true
 ) {
     Column(
         modifier = modifier
@@ -45,6 +46,7 @@ fun RangeSlider(
             Text(text = state.valueRange.start.toInt().toString())
             Slider(
                 modifier = Modifier.weight(1f),
+                enabled = enabled,
                 state = state,
             )
 

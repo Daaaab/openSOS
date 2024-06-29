@@ -11,30 +11,17 @@ import kotlin.math.roundToInt
 import kotlin.math.roundToLong
 
 class FlashlightAction @Inject constructor(
-    settings: Settings,
+    private val settings: Settings,
     private val cameraManager: CameraManager
-) : Action {
-
-    private val timer: Flow<Int>
-
-    init {
-        val blinksCount = (settings.duration / settings.flashInterval).roundToInt()
-        val blinkDuration = (settings.flashInterval * 1000).roundToLong()
-
-        timer = (0..blinksCount)
-            .asSequence()
-            .asFlow()
-            .onEach { delay(blinkDuration) }
-    }
-
-    override suspend fun perform() {
+) {
+    suspend fun perform(duration: Int) {
         var camId = ""
 
         try {
             camId = cameraManager.cameraIdList[0]
             var isOn = false
 
-            timer.collect {
+            getTimer(duration).collect {
                 isOn = !isOn
                 enableFlashlight(cameraManager, camId, isOn)
             }
@@ -44,6 +31,16 @@ class FlashlightAction @Inject constructor(
         } catch (_: Exception) {
             enableFlashlight(cameraManager, camId, false)
         }
+    }
+
+    private fun getTimer(duration: Int): Flow<Int> {
+        val blinkDuration = (settings.flashInterval * 1000).roundToLong()
+        val blinksCount = (duration / settings.flashInterval).roundToInt()
+
+        return (0..blinksCount)
+            .asSequence()
+            .asFlow()
+            .onEach { delay(blinkDuration) }
     }
 
     private fun enableFlashlight(cameraManager: CameraManager, camId: String, isOn: Boolean) {

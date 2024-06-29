@@ -6,6 +6,8 @@ import kotlinx.serialization.Serializable
 data class Alert(
     val phoneNumber: String = "",
     val textMessage: String = "",
-    val actionTypes: List<AlertActionType>,
-    val durationSeconds: Int = 10
+    val isRingtoneActionOn: Boolean = false,
+    val isFlashlightActionOn: Boolean = false,
+    val durationSeconds: Int = 10,
+    val volume: Int = 0
 )

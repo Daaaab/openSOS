@@ -9,11 +9,8 @@ import javax.inject.Inject
 
 class Settings @Inject constructor(context: Context) {
 
-    val duration = 10
-
     val ringtone: Ringtone
     val ringToneStream = AudioManager.STREAM_RING
-    val volume: Float = 1F
 
     val flashInterval = 0.5F
 

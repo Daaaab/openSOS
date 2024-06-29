@@ -21,7 +21,7 @@ class AlertsRepository @Inject constructor(
         list.add(newAlert)
     }
 
-    fun getAlerts() = alertsDataStore.data.map { it.alerts }
+    fun getAlerts() = alertsDataStore.data.map { it.alerts.toList() }
 
     private suspend fun mutateAlerts(mutator: (MutableList<Alert>) -> Unit) = alertsDataStore
         .updateData { store ->

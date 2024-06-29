@@ -28,7 +28,6 @@ import com.google.accompanist.permissions.rememberMultiplePermissionsState
 import com.google.accompanist.permissions.shouldShowRationale
 import com.meowsoft.opensos.common.requiredPermissions
 import com.meowsoft.opensos.domain.model.Alert
-import com.meowsoft.opensos.domain.model.AlertActionType
 import kotlinx.collections.immutable.persistentListOf
 
 @OptIn(ExperimentalPermissionsApi::class)
@@ -101,13 +100,13 @@ fun MainScreenLayoutPermissionsGranted(
                             Text(text = alert.textMessage)
                             Text(text = alert.phoneNumber)
                         }
-                        if (alert.actionTypes.contains(AlertActionType.RINGTONE)) {
+                        if (alert.isRingtoneActionOn) {
                             Icon(
                                 imageVector = Icons.Rounded.Notifications,
                                 contentDescription = ""
                             )
                         }
-                        if (alert.actionTypes.contains(AlertActionType.FLASHLIGHT)) {
+                        if (alert.isFlashlightActionOn) {
                             Icon(
                                 imageVector = Icons.Rounded.FlashlightOn,
                                 contentDescription = ""

@@ -15,8 +15,6 @@ class VibrateAction @Inject constructor(
     private val vibrationEffect: CombinedVibration
 
     init {
-        val durationMillis = settings.duration * 1000L
-
         vibrationEffect = CombinedVibration.createParallel(
             VibrationEffect.createOneShot(1000, VibrationEffect.DEFAULT_AMPLITUDE)
         )
