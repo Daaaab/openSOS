@@ -53,7 +53,7 @@ fun AlertsListScreen(
 
     LaunchedEffect(permissionState) {
         permissionState.permissions.forEach { permission ->
-            if(!permission.status.isGranted && permission.status.shouldShowRationale) {
+            if (!permission.status.isGranted && permission.status.shouldShowRationale) {
                 // TODO show rationale
                 val x = 0
             } else {
@@ -67,7 +67,7 @@ fun AlertsListScreen(
     MainScreenLayoutPermissionsGranted(
         alertsState,
         onNavigateToAddAlerts = viewModel::navigateToAddAlert
-    ){}
+    ) {}
 }
 
 @Composable
@@ -93,28 +93,28 @@ fun MainScreenLayoutPermissionsGranted(
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-           alertsList
-               .forEachIndexed {index, alert ->
-                   Row {
-                       Text(text = "$index.")
-                       Column {
-                           Text(text = alert.textMessage)
-                           Text(text = alert.phoneNumber)
-                       }
-                       if(alert.actionTypes.contains(AlertActionType.RINGTONE)) {
-                           Icon(
-                               imageVector = Icons.Rounded.Notifications,
-                               contentDescription = ""
-                           )
-                       }
-                       if(alert.actionTypes.contains(AlertActionType.FLASHLIGHT)) {
-                           Icon(
-                               imageVector = Icons.Rounded.FlashlightOn,
-                               contentDescription = ""
-                           )
-                       }
-                   }
-               }
+            alertsList
+                .forEachIndexed { index, alert ->
+                    Row {
+                        Text(text = "$index.")
+                        Column {
+                            Text(text = alert.textMessage)
+                            Text(text = alert.phoneNumber)
+                        }
+                        if (alert.actionTypes.contains(AlertActionType.RINGTONE)) {
+                            Icon(
+                                imageVector = Icons.Rounded.Notifications,
+                                contentDescription = ""
+                            )
+                        }
+                        if (alert.actionTypes.contains(AlertActionType.FLASHLIGHT)) {
+                            Icon(
+                                imageVector = Icons.Rounded.FlashlightOn,
+                                contentDescription = ""
+                            )
+                        }
+                    }
+                }
         }
     }
 }

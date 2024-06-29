@@ -1,7 +1,7 @@
 package com.meowsoft.opensos.ui.addalert
 
 sealed interface AddAlertUiEvent {
-    object ConfirmClicked: AddAlertUiEvent
+    object ConfirmClicked : AddAlertUiEvent
 
     data class PhoneNumberInput(
         val phoneNumber: String

@@ -1,12 +1,10 @@
 package com.meowsoft.opensos.domain
 
-import android.media.AudioManager
 import android.os.CombinedVibration
 import android.os.VibrationEffect
 import android.os.Vibrator
 import android.os.VibratorManager
 import com.meowsoft.opensos.common.Settings
-import kotlinx.coroutines.delay
 import javax.inject.Inject
 
 class VibrateAction @Inject constructor(
@@ -26,11 +24,12 @@ class VibrateAction @Inject constructor(
 
     fun perform() {
 
-        val vibrationEffect1 = VibrationEffect.createOneShot(1000, VibrationEffect.DEFAULT_AMPLITUDE);
+        val vibrationEffect1 =
+            VibrationEffect.createOneShot(1000, VibrationEffect.DEFAULT_AMPLITUDE)
 
         // it is safe to cancel other vibrations currently taking place
-        vibrator.cancel();
-        vibrator.vibrate(vibrationEffect1);
+        vibrator.cancel()
+        vibrator.vibrate(vibrationEffect1)
 
     }
 }

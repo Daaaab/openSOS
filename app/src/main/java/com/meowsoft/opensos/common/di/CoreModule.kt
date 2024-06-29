@@ -30,7 +30,7 @@ class CoreModule {
     fun providesAlertsDataStore(context: Context): DataStore<AlertsDataStore> =
         DataStoreFactory.create(
             serializer = AlertsDataStoreSerializer,
-            corruptionHandler =  ReplaceFileCorruptionHandler(
+            corruptionHandler = ReplaceFileCorruptionHandler(
                 produceNewData = { AlertsDataStore() },
             ),
             scope = CoroutineScope(Dispatchers.IO + SupervisorJob()),

@@ -27,12 +27,12 @@ class SmsBroadcastReceiver : BroadcastReceiver() {
     lateinit var vibrateAction: VibrateAction
 
     override fun onReceive(context: Context, intent: Intent) = goAsync {
-        if(intent.action != Telephony.Sms.Intents.SMS_RECEIVED_ACTION) {
+        if (intent.action != Telephony.Sms.Intents.SMS_RECEIVED_ACTION) {
             return@goAsync
         }
 
         Log.d("TEST", "Broadcast received: ${intent.action}")
-       // ringTonePlayer.perform()
+        // ringTonePlayer.perform()
         flashlightAction.perform()
 
     }.also {

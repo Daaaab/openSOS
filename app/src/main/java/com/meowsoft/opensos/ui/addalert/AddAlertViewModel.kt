@@ -4,9 +4,9 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.SliderState
 import androidx.lifecycle.viewModelScope
 import com.meowsoft.opensos.common.NavigatorViewModel
+import com.meowsoft.opensos.data.AlertsRepository
 import com.meowsoft.opensos.domain.model.Alert
 import com.meowsoft.opensos.domain.model.AlertActionType
-import com.meowsoft.opensos.data.AlertsRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -33,8 +33,8 @@ class AddAlertViewModel @Inject constructor(
     private fun confirmAlert() {
         with(_addAlertUiState.value) {
             val alerts = mutableListOf<AlertActionType>()
-            if(isFlashlightActionOn) alerts.add(AlertActionType.FLASHLIGHT)
-            if(isRingtoneActionOn) alerts.add(AlertActionType.RINGTONE)
+            if (isFlashlightActionOn) alerts.add(AlertActionType.FLASHLIGHT)
+            if (isRingtoneActionOn) alerts.add(AlertActionType.RINGTONE)
 
             val alert = Alert(
                 phoneNumber = phoneNumber,
