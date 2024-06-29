@@ -65,15 +65,16 @@ fun AlertsListScreen(
 
     MainScreenLayoutPermissionsGranted(
         alertsState,
+        viewModel::onUiEvent,
         onNavigateToAddAlerts = viewModel::navigateToAddAlert
-    ) {}
+    )
 }
 
 @Composable
 fun MainScreenLayoutPermissionsGranted(
     alertsList: List<Alert>,
-    onNavigateToAddAlerts: () -> Unit,
-    onButtonClick: () -> Unit
+    onUiEvent: (AlertListUiEvent) -> Unit,
+    onNavigateToAddAlerts: () -> Unit
 ) {
     Scaffold(
         floatingActionButtonPosition = FabPosition.EndOverlay,
@@ -94,25 +95,13 @@ fun MainScreenLayoutPermissionsGranted(
         ) {
             alertsList
                 .forEachIndexed { index, alert ->
-                    Row {
-                        Text(text = "$index.")
-                        Column {
-                            Text(text = alert.textMessage)
-                            Text(text = alert.phoneNumber)
+                    AlertItem(
+                        alert = alert,
+                        index = index,
+                        onDismissClick = {
+                            onUiEvent(AlertListUiEvent.DismissItemClicked(index))
                         }
-                        if (alert.isRingtoneActionOn) {
-                            Icon(
-                                imageVector = Icons.Rounded.Notifications,
-                                contentDescription = ""
-                            )
-                        }
-                        if (alert.isFlashlightActionOn) {
-                            Icon(
-                                imageVector = Icons.Rounded.FlashlightOn,
-                                contentDescription = ""
-                            )
-                        }
-                    }
+                    ) {}
                 }
         }
     }

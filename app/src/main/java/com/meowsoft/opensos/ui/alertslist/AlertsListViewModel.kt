@@ -15,21 +15,32 @@ class AlertsListViewModel @Inject constructor(
     private val repository: AlertsRepository
 ) : NavigatorViewModel() {
 
-    init {
-        viewModelScope.launch {
-            repository.clearAlerts()
-        }
-    }
-
     val alerts = repository
         .getAlerts()
         .map { it.toList() }
 
-    init {
-        Log.d("TEST", "AlertsListVM init")
+//    init {
+//        viewModelScope.launch {
+//            repository.clearAlerts()
+//        }
+//    }
+
+    fun onUiEvent(event: AlertListUiEvent) = when (event) {
+        is AlertListUiEvent.DismissItemClicked -> dismissItem(event.index)
+        is AlertListUiEvent.ItemClicked -> openItem(event.index)
     }
 
     fun navigateToAddAlert() {
         navigate(AddAlertNavigationConfig.route)
+    }
+
+    private fun dismissItem(index: Int) {
+        viewModelScope.launch {
+            repository.deleteAlert(index)
+        }
+    }
+
+    private fun openItem(index: Int) {
+
     }
 }

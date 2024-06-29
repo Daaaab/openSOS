@@ -9,6 +9,10 @@ import javax.inject.Inject
 class AlertsRepository @Inject constructor(
     private val alertsDataStore: DataStore<AlertsDataStore>
 ) {
+    suspend fun deleteAlert(index: Int) = mutateAlerts { list ->
+        list.removeAt(index)
+    }
+
     suspend fun clearAlerts() = mutateAlerts { list ->
         list.clear()
     }
